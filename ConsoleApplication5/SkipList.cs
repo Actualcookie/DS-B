@@ -9,19 +9,19 @@ namespace CSKicksCollection
     class SkipListNode<T> : IDisposable
         where T : IComparable
     {
-        private T value, number;
+        private int value, number;
         private SkipListNode<T> next;
         private SkipListNode<T> previous;
         private SkipListNode<T> above;
         private SkipListNode<T> below;
 
-        public virtual T Value
+        public int Value
         {
             get { return value; }
             set { this.value = value; }
         }
 
-        public virtual T Number
+        public int Number
         {
             get { return number; }
             set { this.number = value; }
@@ -51,7 +51,7 @@ namespace CSKicksCollection
             set { below = value; }
         }
 
-        public SkipListNode(T value, T Number)
+        public SkipListNode(int value, int Number)
         {
             this.Value = value;
             this.Number = number;
@@ -59,7 +59,8 @@ namespace CSKicksCollection
 
         public void Dispose()
         {
-            value = default(T);
+            value = 0;
+            number = 0;
             next = null;
             previous = null;
             above = null;
@@ -84,7 +85,7 @@ namespace CSKicksCollection
         where T : IComparable
     {
         public SkipListNodeHeader()
-            : base(default(T),default(T))
+            : base(,)
         {
         }
     }
@@ -96,7 +97,7 @@ namespace CSKicksCollection
         where T : IComparable
     {
         public SkipListNodeFooter()
-            : base(default(T),default(T))
+            : base(,)
         {
         }
     }
