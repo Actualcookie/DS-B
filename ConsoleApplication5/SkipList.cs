@@ -9,7 +9,7 @@ namespace CSKicksCollection
     class SkipListNode<T> : IDisposable
         where T : IComparable
     {
-        private T value;
+        private T value, number;
         private SkipListNode<T> next;
         private SkipListNode<T> previous;
         private SkipListNode<T> above;
@@ -19,6 +19,12 @@ namespace CSKicksCollection
         {
             get { return value; }
             set { this.value = value; }
+        }
+
+        public virtual T Number
+        {
+            get { return number; }
+            set { this.number = value; }
         }
 
         public virtual SkipListNode<T> Next
@@ -45,9 +51,10 @@ namespace CSKicksCollection
             set { below = value; }
         }
 
-        public SkipListNode(T value)
+        public SkipListNode(T value, T Number)
         {
             this.Value = value;
+            this.Number = number;
         }
 
         public void Dispose()
@@ -77,7 +84,7 @@ namespace CSKicksCollection
         where T : IComparable
     {
         public SkipListNodeHeader()
-            : base(default(T))
+            : base(default(T),default(T))
         {
         }
     }
@@ -89,12 +96,12 @@ namespace CSKicksCollection
         where T : IComparable
     {
         public SkipListNodeFooter()
-            : base(default(T))
+            : base(default(T),default(T))
         {
         }
     }
 
-    class SkipList<T> : ICollection<T>
+    class SkipList<T> 
         where T : IComparable
     {
         internal SkipListNode<T> topLeft;
@@ -433,29 +440,6 @@ namespace CSKicksCollection
             }
         }
 
-        /// <summary>
-        /// Copies the values of the Skip List to an array
-        /// </summary>
-        public virtual void CopyTo(T[] array)
-        {
-            CopyTo(array, 0);
-        }
-
-        /// <summary>
-        /// Copies the values of the Skip List to an array
-        /// </summary>
-        public virtual void CopyTo(T[] array, int startIndex)
-        {
-            IEnumerator<T> enumerator = this.GetEnumerator();
-
-            for (int i = startIndex; i < array.Length; i++)
-            {
-                if (enumerator.MoveNext())
-                    array[i] = enumerator.Current;
-                else
-                    break;
-            }
-        }
 
         /// <summary>
         /// Gets the number of levels of a value in the Skip List
@@ -489,68 +473,7 @@ namespace CSKicksCollection
 
             return height;
         }
-
-        /// <summary>
-        /// Gets the enumerator for the Skip List
-        /// </summary>
-        public IEnumerator<T> GetEnumerator()
-        {
-            return new SkipListEnumerator(this);
-        }
-
-        /// <summary>
-        /// Gets the enumerator for the Skip List
-        /// </summary>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Enumerator for a Skip List. Scans across the lowest level of a Skip List.
-        /// </summary>
-        internal class SkipListEnumerator : IEnumerator<T>
-        {
-            private SkipListNode<T> current;
-            private SkipList<T> skipList;
-
-            public SkipListEnumerator(SkipList<T> skipList)
-            {
-                this.skipList = skipList;
-            }
-
-            public T Current
-            {
-                get { return current.Value; }
-            }
-
-            object IEnumerator.Current
-            {
-                get { return this.Current; }
-            }
-
-            public void Dispose()
-            {
-                current = null;
-            }
-
-            public void Reset()
-            {
-                current = null;
-            }
-
-            public bool MoveNext()
-            {
-                if (current == null)
-                    current = this.skipList.Head.Next; //Head is header node, start after
-                else
-                    current = current.Next;
-
-                if (current != null && current.IsFooter())
-                    current = null; //end of list
-
-                return (current != null);
-            }
+  
         }
     }
 }
