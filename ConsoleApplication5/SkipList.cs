@@ -1,12 +1,5 @@
-//====================================================
-//| Downloaded From                                  |
-//| Visual C# Kicks - http://vckicks.110mb.com/      |
-//| License - http://vckicks.110mb.com/license.html  |
-//====================================================
+
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CSKicksCollection
 {
